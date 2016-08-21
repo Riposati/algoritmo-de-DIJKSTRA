@@ -2,7 +2,7 @@ package modelo;
 
 public class Aresta {
 
-	private int rotuloVertice;
+	private Vertice verticeAdj;
 	private long pesoAresta;
 
 	public long getPesoAresta() {
@@ -13,11 +13,11 @@ public class Aresta {
 		this.pesoAresta = pesoAresta;
 	}
 
-	public int getRotuloVerticeVai() {
-		return rotuloVertice;
+	public Vertice getRotuloVerticeVai() {
+		return verticeAdj;
 	}
 
-	public void setRotuloVerticeVai(int rotuloVerticeVai) {
-		this.rotuloVertice = rotuloVerticeVai;
+	public void setRotuloVerticeVai(Vertice rotuloVerticeVai) {
+		this.verticeAdj = rotuloVerticeVai;
 	}
 }

@@ -49,21 +49,10 @@ public class Grafo {
 				System.out.println("\n**********Precedente = NULL" + "****************");
 
 			System.out.println("\n**********ESTIMATIVA = " + v.getEstimativa() + "****************");
-
-			/*
-			 * if (v.getListaArestas().size() > 0){ System.out.println(
-			 * "\nLista de arestas deste vértice:\n"); }
-			 */
-
-			/*
-			 * for (Aresta a : v.getListaArestas()) { System.out.println(
-			 * "Rotulo = " + a.getRotuloVertice() + "\nPeso desta ligaçao = " +
-			 * a.getPesoAresta() + "\n--------------------------------\n"); }
-			 */
 		}
 	}
 
-	public void addAresta(int rotuloVerticeParteAresta, int rotuloVerticeRecebeAresta, long pesoAresta) {
+	public void addAresta(Vertice verticeParteAresta, Vertice verticeRecebeAresta, long pesoAresta) {
 
 		// Aqui temos um dígrafo
 
@@ -72,7 +61,7 @@ public class Grafo {
 
 		for (i = 0; i < this.vertices.size() && !f1; i++) {
 
-			if (this.vertices.get(i).getRotulo() == rotuloVerticeParteAresta) {
+			if (this.vertices.get(i).getRotulo() == verticeParteAresta.getRotulo()) {
 				f1 = true;
 				aux1 = i;
 			}
@@ -81,7 +70,8 @@ public class Grafo {
 		if (f1) {
 
 			Aresta a = new Aresta();
-			a.setRotuloVerticeVai(rotuloVerticeRecebeAresta);
+
+			a.setRotuloVerticeVai(verticeRecebeAresta);
 			a.setPesoAresta(pesoAresta);
 
 			this.vertices.get(aux1).getListaArestas().add(a);
@@ -96,7 +86,7 @@ public class Grafo {
 				this.getVertices().get(i).setEstimativa(0); // O começo da busca
 
 				filaDeVertices.add(this.getVertices().get(i));
-				
+
 				return true;
 			}
 		}
@@ -112,19 +102,13 @@ public class Grafo {
 
 			double sum = v.getEstimativa() + a.getPesoAresta();
 
-			for (int x = 0; x < this.getVertices().size(); x++) {
+			if (sum < a.getRotuloVerticeVai().getEstimativa()) {
 
-				if (a.getRotuloVerticeVai() == this.getVertices().get(x).getRotulo()) {
-
-					if (sum < this.getVertices().get(x).getEstimativa()) {
-
-						this.getVertices().get(x).setEstimativa(sum);
-						this.getVertices().get(x).setPrecedente(v);
-						this.filaDeVertices.add(this.getVertices().get(x));
-						System.out.println("Peguei o vértice da minha lista de arestas = "
-								+ this.getVertices().get(x).getRotulo());
-					}
-				}
+				a.getRotuloVerticeVai().setEstimativa(sum);
+				a.getRotuloVerticeVai().setPrecedente(v);
+				this.filaDeVertices.add(a.getRotuloVerticeVai());
+				System.out
+						.println("Peguei o vértice da minha lista de arestas = " + a.getRotuloVerticeVai().getRotulo());
 			}
 		}
 	}
@@ -139,12 +123,12 @@ public class Grafo {
 			}
 		}
 	}
-	
-	public void dijkstraCaminhoIniEFinal(int rotuloVerticeInicial,int rotuloVerticeFinal) {
+
+	public void dijkstraCaminhoIniEFinal(int rotuloVerticeInicial, int rotuloVerticeFinal) {
 
 		if (acheiVertice(rotuloVerticeInicial)) {
 
-			while (filaNaoVazia() && filaDeVertices.peek().getRotulo()!=rotuloVerticeFinal) {
+			while (filaNaoVazia() && filaDeVertices.peek().getRotulo() != rotuloVerticeFinal) {
 
 				BFS(filaDeVertices.poll());
 			}
